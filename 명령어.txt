@@ -1,0 +1,1 @@
+export PATH=$PATH:/c/Users/family/Desktop/PROJECT2019/nsml/nsml_client.windows.amd64.hack
