@@ -1,1 +1,6 @@
-export PATH=$PATH:/c/Users/family/Desktop/PROJECT2019/nsml/nsml_client.windows.amd64.hack
+export PATH=$PATH:/c/Users/family/Desktop/PROJECT2019/nsml/nsml_client.windows.amd64.hack/nsml-test
+
+
+nsml login -u github_id -p passwd 
+
+nsml run -d dataset  

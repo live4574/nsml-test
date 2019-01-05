@@ -20,6 +20,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.callbacks import ReduceLROnPlateau
 from keras import backend as K
 from data_loader import train_data_loader
+from keras.applications import ResNet50
 
 def bind_model(model):
     def save(dir_name):
@@ -142,6 +143,8 @@ if __name__ == '__main__':
     input_shape = (224, 224, 3)  # input image shape
 
     """ Model """
+    model=ResNet50(weights='imagenet')
+    '''
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
     model.add(Activation('relu'))
@@ -164,6 +167,7 @@ if __name__ == '__main__':
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
     model.summary()
+    ''' #original
 
     bind_model(model)
 
