@@ -20,6 +20,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.callbacks import ReduceLROnPlateau
 from keras import backend as K
 from data_loader import train_data_loader
+from keras.utils.generic_utils import get_custom_objects
 
 def bind_model(model):
     def save(dir_name):
@@ -121,6 +122,10 @@ def preprocess(queries, db):
 
     return queries, query_img, db, reference_img
 
+def swish(x):
+    return {K.sigmoid(x)*x}
+
+get_custom_objects().update({'swish':Activation(swish)})
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -145,7 +150,7 @@ if __name__ == '__main__':
 
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
-    model.add(Activation('relu'))
+    model.add(Activation('swish'))
     model.add(Conv2D(32, (3, 3)))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(3, 3)))
