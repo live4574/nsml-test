@@ -145,7 +145,7 @@ if __name__ == '__main__':
     nb_epoch = config.epochs
     batch_size = config.batch_size
     num_classes = 1000
-    input_shape = (224, 224, 3)  # input image shape
+    input_shape = (331, 331, 3)  # input image shape
 
     """ Model """
     '''
