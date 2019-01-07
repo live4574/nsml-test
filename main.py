@@ -123,17 +123,12 @@ def preprocess(queries, db):
 
     return queries, query_img, db, reference_img
 
-def swish(x):
-    return {K.sigmoid(x)*x}
-
-get_custom_objects().update({'swish':Activation(swish)})
-
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
 
     # hyperparameters
     args.add_argument('--epochs', type=int, default=100)
-    args.add_argument('--batch_size', type=int, default=128)
+    args.add_argument('--batch_size', type=int, default=101)
 
     # DONOTCHANGE: They are reserved for nsml
     args.add_argument('--mode', type=str, default='train', help='submit일때 해당값이 test로 설정됩니다.')
@@ -148,10 +143,10 @@ if __name__ == '__main__':
     input_shape = (224, 224, 3)  # input image shape
 
     """ Model """
-    '''
+    
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
-    model.add(Activation('swish'))
+    model.add(Activation('rel'))
     model.add(Conv2D(32, (3, 3)))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(3, 3)))
@@ -171,8 +166,8 @@ if __name__ == '__main__':
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
     model.summary()
-    '''
-    model=nasnet.NASNetLarge(weights="imagenet")
+ 
+   
     bind_model(model)
 
     if config.pause:
