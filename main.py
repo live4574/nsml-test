@@ -132,7 +132,7 @@ if __name__ == '__main__':
     args = argparse.ArgumentParser()
 
     # hyperparameters
-    args.add_argument('--epochs', type=int, default=30)
+    args.add_argument('--epochs', type=int, default=100)
     args.add_argument('--batch_size', type=int, default=101)
 
     # DONOTCHANGE: They are reserved for nsml
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     model.add(Activation('softmax'))
     model.summary()
     '''
-    model=nasnet.NASNetLarge(weigths="imagenet")
+    model=nasnet.NASNetLarge(weights="imagenet")
     bind_model(model)
 
     if config.pause:
