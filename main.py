@@ -129,7 +129,7 @@ if __name__ == '__main__':
     # hyperparameters
     args.add_argument('--epochs', type=int, default=100)
     args.add_argument('--batch_size', type=int, default=101)
-
+    
     # DONOTCHANGE: They are reserved for nsml
     args.add_argument('--mode', type=str, default='train', help='submit일때 해당값이 test로 설정됩니다.')
     args.add_argument('--iteration', type=str, default='0', help='fork 명령어를 입력할때의 체크포인트로 설정됩니다. 체크포인트 옵션을 안주면 마지막 wall time 의 model 을 가져옵니다.')
@@ -159,6 +159,27 @@ if __name__ == '__main__':
     model.add(MaxPooling2D(pool_size=(3, 3)))
     model.add(Dropout(0.25))
 
+    model.add(Conv2D(128, (3, 3), padding='same'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(128, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(3, 3)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(256, (3, 3), padding='same'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(256, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(3, 3)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(512, (3, 3), padding='same'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(512, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(3, 3)))
+    model.add(Dropout(0.25))
+    
     model.add(Flatten())
     model.add(Dense(512))
     model.add(Activation('relu'))
