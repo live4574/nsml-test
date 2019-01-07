@@ -107,7 +107,7 @@ def l2_normalize(v):
 def preprocess(queries, db):
     query_img = []
     reference_img = []
-    img_size = (224, 224)
+    img_size = (331, 331)
 
     for img_path in queries:
         img = cv2.imread(img_path, 1)
