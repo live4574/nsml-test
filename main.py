@@ -107,7 +107,7 @@ def l2_normalize(v):
 def preprocess(queries, db):
     query_img = []
     reference_img = []
-    img_size = (331, 331)
+    img_size = (224, 224)
 
     for img_path in queries:
         img = cv2.imread(img_path, 1)
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     nb_epoch = config.epochs
     batch_size = config.batch_size
     num_classes = 1000
-    input_shape = (331, 331, 3)  # input image shape
+    input_shape = (224, 224, 3)  # input image shape
 
     """ Model """
     '''
