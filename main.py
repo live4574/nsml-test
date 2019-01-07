@@ -21,6 +21,7 @@ from keras.callbacks import ReduceLROnPlateau
 from keras import backend as K
 from data_loader import train_data_loader
 from keras.utils.generic_utils import get_custom_objects
+from keras.applications import nasnet
 
 def bind_model(model):
     def save(dir_name):
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     input_shape = (224, 224, 3)  # input image shape
 
     """ Model """
-
+    '''
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
     model.add(Activation('swish'))
@@ -170,7 +171,8 @@ if __name__ == '__main__':
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
     model.summary()
-
+    '''
+    model=nasnet.NASNetLarge(weigths="imagenet")
     bind_model(model)
 
     if config.pause:
