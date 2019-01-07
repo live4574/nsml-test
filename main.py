@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
     # hyperparameters
     args.add_argument('--epochs', type=int, default=100)
-    args.add_argument('--batch_size', type=int, default=101)
+    args.add_argument('--batch_size', type=int, default=128)
 
     # DONOTCHANGE: They are reserved for nsml
     args.add_argument('--mode', type=str, default='train', help='submit일때 해당값이 test로 설정됩니다.')
