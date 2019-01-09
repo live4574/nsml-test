@@ -21,6 +21,7 @@ from keras.callbacks import ReduceLROnPlateau
 from keras import backend as K
 from data_loader import train_data_loader
 from keras.utils.generic_utils import get_custom_objects
+from keras.applications.resnet50 import ResNet50
 
 def bind_model(model):
     def save(dir_name):
@@ -131,8 +132,8 @@ if __name__ == '__main__':
     args = argparse.ArgumentParser()
 
     # hyperparameters
-    args.add_argument('--epochs', type=int, default=30)
-    args.add_argument('--batch_size', type=int, default=101)
+    args.add_argument('--epochs', type=int, default=100)
+    args.add_argument('--batch_size', type=int, default=32)
 
     # DONOTCHANGE: They are reserved for nsml
     args.add_argument('--mode', type=str, default='train', help='submit일때 해당값이 test로 설정됩니다.')
@@ -148,28 +149,31 @@ if __name__ == '__main__':
 
     """ Model """
 
+    model=ResNet50(weights='imagenet')
+    '''
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
     model.add(Activation('swish'))
     model.add(Conv2D(32, (3, 3)))
-    model.add(Activation('relu'))
+    model.add(Activation('swish'))
     model.add(MaxPooling2D(pool_size=(3, 3)))
     model.add(Dropout(0.25))
 
     model.add(Conv2D(64, (3, 3), padding='same'))
-    model.add(Activation('relu'))
+    model.add(Activation('swish'))
     model.add(Conv2D(64, (3, 3)))
-    model.add(Activation('relu'))
+    model.add(Activation('swish'))
     model.add(MaxPooling2D(pool_size=(3, 3)))
     model.add(Dropout(0.25))
 
     model.add(Flatten())
     model.add(Dense(512))
-    model.add(Activation('relu'))
+    model.add(Activation('swish'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
     model.summary()
+    '''
 
     bind_model(model)
 
