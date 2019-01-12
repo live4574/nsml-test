@@ -22,6 +22,8 @@ from keras import backend as K
 from data_loader import train_data_loader
 from keras.utils.generic_utils import get_custom_objects
 from keras.applications.resnet50 import ResNet50
+from keras.applications.densenet import DenseNet201
+from keras.applications import nasnet
 
 def bind_model(model):
     def save(dir_name):
@@ -55,6 +57,7 @@ def bind_model(model):
         reference_img /= 255
 
         get_feature_layer = K.function([model.layers[0].input] + [K.learning_phase()], [model.layers[-2].output])
+        ##feature layer
 
         print('inference start')
 
@@ -123,16 +126,11 @@ def preprocess(queries, db):
 
     return queries, query_img, db, reference_img
 
-def swish(x):
-    return {K.sigmoid(x)*x}
-
-get_custom_objects().update({'swish':Activation(swish)})
-
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
 
     # hyperparameters
-    args.add_argument('--epochs', type=int, default=100)
+    args.add_argument('--epochs', type=int, default=107)
     args.add_argument('--batch_size', type=int, default=32)
 
     # DONOTCHANGE: They are reserved for nsml
@@ -149,32 +147,22 @@ if __name__ == '__main__':
 
     """ Model """
 
-    model=ResNet50(weights='imagenet')
-    '''
-    model = Sequential()
-    model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
-    model.add(Activation('swish'))
-    model.add(Conv2D(32, (3, 3)))
-    model.add(Activation('swish'))
-    model.add(MaxPooling2D(pool_size=(3, 3)))
-    model.add(Dropout(0.25))
+    #model=ResNet50(weights='imagenet')
+    dense_Model=DenseNet201(weights='imagenet',include_top='False')
+    #dense_Model=densenet.DenseNet201(weights='imagenet')
 
-    model.add(Conv2D(64, (3, 3), padding='same'))
-    model.add(Activation('swish'))
-    model.add(Conv2D(64, (3, 3)))
-    model.add(Activation('swish'))
-    model.add(MaxPooling2D(pool_size=(3, 3)))
-    model.add(Dropout(0.25))
-
+    for layer in dense_Model.layers[:-4]:
+        layer.trainalbe=False
+    model=Sequential()
+    model.add(dense_Model)
     model.add(Flatten())
-    model.add(Dense(512))
-    model.add(Activation('swish'))
+    model.add(Dense(4096))
+    model.add(Activation('relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
-    model.summary()
-    '''
 
+    model.summary()
     bind_model(model)
 
     if config.pause:
@@ -184,7 +172,7 @@ if __name__ == '__main__':
     if config.mode == 'train':
         bTrainmode = True
 
-        """ Initiate RMSprop optimizer """
+        """ Initiate RMSprop optimizer """ # adma?.
         opt = keras.optimizers.rmsprop(lr=0.00045, decay=1e-6)
         model.compile(loss='categorical_crossentropy',
                       optimizer=opt,

@@ -4,3 +4,6 @@ export PATH=$PATH:/c/Users/family/Desktop/PROJECT2019/nsml/nsml_client.windows.a
 nsml login -u github_id -p passwd 
 
 nsml run -d dataset  
+
+export PATH=$PATH:/c/Users/Administrator/Desktop/nsml-test
+-pc
